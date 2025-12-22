@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
           child: Column(
             children: [
               CardPoints(
-                //   trackColor: Color(0xFFEDE2DC),
-                currentPoints: 10,
+                trackColor: Color(0xFFEDE2DC),
+                currentPoints: 40,
                 milestones: [0, 30, 60, 90, 120],
                 progressColor: Color(0xFFA47052),
               ),

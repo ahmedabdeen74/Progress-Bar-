@@ -10,6 +10,10 @@ class CardPoints extends StatelessWidget {
   final Widget? completedIcon;
   final Widget? pendingIcon;
   final double iconSize;
+  final double? lineHeight;
+  final Duration? animationDuration;
+  final Curve? animationCurve;
+  final TextStyle? labelStyle;
   final Function(int index)? onMilestoneTap;
 
   const CardPoints({
@@ -22,7 +26,7 @@ class CardPoints extends StatelessWidget {
     this.completedIcon,
     this.pendingIcon,
     this.iconSize = 24.0,
-    this.onMilestoneTap,
+    this.onMilestoneTap, this.lineHeight, this.animationDuration, this.animationCurve, this.labelStyle,
   });
 
   @override

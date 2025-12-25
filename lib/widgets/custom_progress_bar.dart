@@ -13,6 +13,7 @@ class CustomProgressBar extends StatelessWidget {
   final Duration animationDuration;
   final Curve animationCurve;
   final TextStyle? labelStyle;
+  final Function(int index)? onMilestoneTap;
 
   const CustomProgressBar({
     super.key,
@@ -28,6 +29,7 @@ class CustomProgressBar extends StatelessWidget {
     this.animationDuration = const Duration(milliseconds: 500),
     this.animationCurve = Curves.easeInOut,
     this.labelStyle,
+    this.onMilestoneTap,
   }) : assert(labels == null || labels.length == milestones.length,
             'Labels length must match milestones length');
 
@@ -53,7 +55,15 @@ class CustomProgressBar extends StatelessWidget {
               if (index % 2 == 0) {
                 final milestoneIndex = index ~/ 2;
                 final isCompleted = currentPoints >= milestones[milestoneIndex];
-                return _buildIcon(isCompleted);
+
+                return GestureDetector(
+                  onTap: () {
+                    if (onMilestoneTap != null) {
+                      onMilestoneTap!(milestoneIndex);
+                    }
+                  },
+                  child: _buildIcon(isCompleted),
+                );
               } else {
                 final segmentIndex = index ~/ 2;
                 final progress = _calculateSegmentProgress(
@@ -69,15 +79,31 @@ class CustomProgressBar extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: labels!.map((label) => SizedBox(
+            children: labels!.asMap().entries.map((entry) {
+              final index = entry.key;
+              final label = entry.value;
+              return GestureDetector(
+                onTap: () => onMilestoneTap?.call(index),
+                child: SizedBox(
                   width: iconSize,
-                  child: Text(
-                    label,
-                    textAlign: TextAlign.center,
-                    style: labelStyle ??
-                        const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                  height: 30, 
+                  child: OverflowBox(
+                    maxWidth: iconSize * 3,
+                    maxHeight: 30,
+                    child: Center(
+                      child: Text(
+                        label,
+                        textAlign: TextAlign.center,
+                        style: labelStyle ??
+                            const TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w500),
+                        softWrap: false,
+                      ),
+                    ),
                   ),
-                )).toList(),
+                ),
+              );
+            }).toList(),
           ),
         ],
       ],
@@ -85,9 +111,10 @@ class CustomProgressBar extends StatelessWidget {
   }
 
   Widget _buildIcon(bool isCompleted) {
-    return SizedBox(
+    return Container(
       width: iconSize,
       height: iconSize,
+      alignment: Alignment.center,
       child: isCompleted
           ? (completedIcon ??
               Icon(Icons.check_circle, color: Colors.green, size: iconSize))
@@ -98,34 +125,37 @@ class CustomProgressBar extends StatelessWidget {
 
   Widget _buildLineSegment(double progress) {
     return Expanded(
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            height: lineHeight,
-            decoration: BoxDecoration(
-              color: trackColor,
-              borderRadius: BorderRadius.circular(lineHeight),
+      child: SizedBox(
+        height: lineHeight,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              height: lineHeight,
+              decoration: BoxDecoration(
+                color: trackColor,
+                borderRadius: BorderRadius.circular(lineHeight),
+              ),
             ),
-          ),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              return Align(
-                alignment: Alignment.centerLeft,
-                child: AnimatedContainer(
-                  duration: animationDuration,
-                  curve: animationCurve,
-                  height: lineHeight,
-                  width: constraints.maxWidth * progress,
-                  decoration: BoxDecoration(
-                    color: progressColor,
-                    borderRadius: BorderRadius.circular(lineHeight),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return Align(
+                  alignment: Alignment.centerLeft,
+                  child: AnimatedContainer(
+                    duration: animationDuration,
+                    curve: animationCurve,
+                    height: lineHeight,
+                    width: constraints.maxWidth * progress,
+                    decoration: BoxDecoration(
+                      color: progressColor,
+                      borderRadius: BorderRadius.circular(lineHeight),
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-        ],
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

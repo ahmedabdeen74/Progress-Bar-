@@ -4,3 +4,7 @@
 * Added animated progress bar support.
 * Added support for custom icons, SVG, and labels.
 * Implemented interactive tap events on milestones.
+
+## 0.0.2
+
+* Fixed README.md images and documentation.

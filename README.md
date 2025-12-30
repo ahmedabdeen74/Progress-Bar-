@@ -24,7 +24,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  reward_progress_bar: ^0.0.4
+  reward_progress_bar: ^0.0.5
 
 Then run:
 flutter pub get

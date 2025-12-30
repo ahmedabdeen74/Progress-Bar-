@@ -1,3 +1,7 @@
+## 0.0.6
+
+* Fixed Dart file conventions to meet pub.dev standards.
+
 ## 0.0.5
 
 * Fixed Dart file conventions to meet pub.dev standards.

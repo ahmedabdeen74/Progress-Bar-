@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reward_progress_bar/reward_progress_bar.dart';
 
 void main() => runApp(const RewardShowcaseApp());
@@ -54,17 +53,16 @@ class _ShowcaseScreenState extends State<ShowcaseScreen> {
               // 1 - (Custom SVG Assets)
               // =================================================
               const _SectionTitle("1. Custom Assets (SVG Support)"),
-              _ShowcaseCard(
+              /*  _ShowcaseCard(
                 color: const Color(0xFFFDF8F5),
                 child: CardPoints(
                   currentPoints: currentPoints,
-                  milestones: const [0, 30, 60, 90, 120],
+                  milestones: const [0, 30, 60, 90],
                   labels: const [
                     "Start",
                     "Bronze",
                     "Silver",
                     "Gold",
-                    "Diamond",
                   ],
                   progressColor: const Color(0xFFA47052),
                   trackColor: const Color(0xFFEDE2DC),
@@ -83,7 +81,7 @@ class _ShowcaseScreenState extends State<ShowcaseScreen> {
                       _showSnack(context, "SVG Milestone $i"),
                 ),
               ),
-
+*/
               const SizedBox(height: 30),
 
               // =================================================
@@ -93,12 +91,17 @@ class _ShowcaseScreenState extends State<ShowcaseScreen> {
               _ShowcaseCard(
                 color: Colors.white,
                 child: CardPoints(
+                  lineHeight: 12,
+                  animationDuration: const Duration(milliseconds: 500),
+                  animationCurve: Curves.easeInOut,
+                  labelStyle: const TextStyle(
+                    color: Colors.blue,
+                  ),
                   currentPoints: currentPoints,
                   milestones: const [0, 40, 80, 120],
                   labels: const ["Rookie", "Elite", "Master", "Legend"],
                   progressColor: Colors.amber,
                   trackColor: Colors.amber.withValues(alpha: 0.2),
-                  // استخدام أيقونات فلاتر الجاهزة
                   completedIcon: const Icon(
                     Icons.star,
                     color: Colors.amber,
@@ -181,11 +184,11 @@ class _ShowcaseScreenState extends State<ShowcaseScreen> {
         decoration: BoxDecoration(
           color: Colors.black87,
           borderRadius: BorderRadius.circular(30),
-          boxShadow: const[
+          boxShadow: const [
             BoxShadow(
               color: Colors.black26,
               blurRadius: 6,
-              offset:  Offset(0, 3),
+              offset: Offset(0, 3),
             ),
           ],
         ),

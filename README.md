@@ -7,15 +7,16 @@ This package allows you to create milestone-based progress bars where lines do n
 ## 🎥 Preview
 
 ![Reward Progress Bar Demo](https://github.com/ahmedabdeen74/Progress-Bar-/blob/master/assets/screenshots/demo.gif?raw=true)
+
 ## ✨ Features
 
-* **🚀 Animated Progress:** Smooth transitions when updating points.
+* **🚀 Animated Progress:** Smooth, customizable transitions when updating points.
 * **📍 Milestone Based:** Breaks down progress into distinct stages (e.g., Bronze, Silver, Gold).
 * **🎨 Fully Customizable:** Control colors, sizes, line thickness, and curves.
 * **🧩 Flexible Icons:** Use standard `Icons`, `SvgPicture`, `Images`, or any custom widget.
-* **🏷️ Label Support:** Add text labels under each milestone.
+* **✨ Clean UI:** No visual glitches behind transparent icons (lines do not overlap).
+* **🏷️ Label Support:** Add styled text labels under each milestone.
 * **👆 Interactive:** Support for `onMilestoneTap` to handle user interactions.
-* **🚫 No Overflow Issues:** optimized layout to handle various sizes without crashing.
 
 ## 📦 Installation
 
@@ -23,7 +24,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  reward_progress_bar: ^0.0.1
+  reward_progress_bar: ^0.0.4
 
 Then run:
 flutter pub get
@@ -47,11 +48,19 @@ CardPoints(
   currentPoints: 75,
   milestones: const [0, 50, 100, 150, 200],
   labels: const ["Start", "Bronze", "Silver", "Gold", "Diamond"],
+  // Customization
   progressColor: Colors.amber,
-  trackColor: Colors.amber.withOpacity(0.2),
+  trackColor: Colors.amber.withValues(alpha: 0.2), // Updated for Flutter 3.22+
   iconSize: 30,
-  lineHeight: 8,
-  // You can use any widget here (Icon, SvgPicture, Image)
+  lineHeight: 8, // Control line thickness
+  animationDuration: const Duration(milliseconds: 800), // Slower animation
+  animationCurve: Curves.bounceOut, // Bouncy effect
+  labelStyle: const TextStyle(
+    color: Colors.amber,
+    fontWeight: FontWeight.bold,
+    fontSize: 12,
+  ),
+  // Custom Icons (You can use SvgPicture here)
   completedIcon: const Icon(Icons.star, color: Colors.amber, size: 30),
   pendingIcon: Icon(Icons.star_border, color: Colors.amber.shade200, size: 30),
   onMilestoneTap: (index) {
@@ -83,8 +92,16 @@ CardPoints(
 | `iconSize`       | `double`         | 24.0                  | Size of the milestone icons                   |
 | `lineHeight`     | ``double?``      | null                  | Thickness of the connecting lines             |
 | `onMilestoneTap` | `Function(int)?` | null                  | Callback when a milestone is tapped           |
+| `labelStyle`     | `TextStyle?`     | null                  | Style for the milestone labels.         |      
+                 
+| `animationCurve` | `Curve?`         | Curves.easeInOut      |  Curve of the animation.        
+                 
+| `animationDuration` | `Duration?`   | 500ms                 |  Duration of the progress animation. 
 
 
 
 🤝 Contributing
 Contributions are welcome! If you find a bug or want to add a feature, please open an issue or submit a pull request.
+
+📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.

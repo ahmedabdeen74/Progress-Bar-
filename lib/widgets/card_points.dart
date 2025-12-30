@@ -26,12 +26,20 @@ class CardPoints extends StatelessWidget {
     this.completedIcon,
     this.pendingIcon,
     this.iconSize = 24.0,
-    this.onMilestoneTap, this.lineHeight, this.animationDuration, this.animationCurve, this.labelStyle,
+    this.onMilestoneTap,
+    this.lineHeight,
+    this.animationDuration,
+    this.animationCurve,
+    this.labelStyle,
   });
 
   @override
   Widget build(BuildContext context) {
     return CustomProgressBar(
+      lineHeight: lineHeight ?? 6.0,
+      animationDuration: animationDuration ?? const Duration(milliseconds: 500),
+      animationCurve: animationCurve ?? Curves.easeInOut,
+      labelStyle: labelStyle,
       onMilestoneTap: onMilestoneTap,
       iconSize: iconSize,
       completedIcon: completedIcon ??

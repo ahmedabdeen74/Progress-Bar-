@@ -172,7 +172,7 @@ class CustomProgressBar extends StatelessWidget {
             LayoutBuilder(
               builder: (context, constraints) {
                 return Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: AlignmentDirectional.centerStart,
                   child: AnimatedContainer(
                     duration: animationDuration,
                     curve: animationCurve,

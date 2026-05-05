@@ -1,3 +1,7 @@
+## 0.0.7
+
+* Fix RTL support and clamp total progress fraction in CustomProgressBar
+
 ## 0.0.6
 
 * Fixed Dart file conventions to meet pub.dev standards.

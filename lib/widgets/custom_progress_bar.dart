@@ -75,68 +75,71 @@ class CustomProgressBar extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          children: List.generate(
-            milestones.length + (milestones.length - 1),
-            (index) {
-              if (index % 2 == 0) {
-                final milestoneIndex = index ~/ 2;
-                final isCompleted = currentPoints >= milestones[milestoneIndex];
-
-                return GestureDetector(
-                  onTap: () {
-                    if (onMilestoneTap != null) {
-                      onMilestoneTap!(milestoneIndex);
-                    }
-                  },
-                  child: _buildIcon(isCompleted),
-                );
-              } else {
-                final segmentIndex = index ~/ 2;
-                final progress = _calculateSegmentProgress(
-                  milestones[segmentIndex],
-                  milestones[segmentIndex + 1],
-                );
-                return _buildLineSegment(progress);
-              }
-            },
-          ),
-        ),
-        if (labels != null) ...[
-          const SizedBox(height: 8),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: labels!.asMap().entries.map((entry) {
-              final index = entry.key;
-              final label = entry.value;
-              return GestureDetector(
-                onTap: () => onMilestoneTap?.call(index),
-                child: SizedBox(
-                  width: iconSize,
-                  height: 30,
-                  child: OverflowBox(
-                    maxWidth: iconSize * 3,
-                    maxHeight: 30,
-                    child: Center(
-                      child: Text(
-                        label,
-                        textAlign: TextAlign.center,
-                        style: labelStyle ??
-                            const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w500),
-                        softWrap: false,
+            children: List.generate(
+              milestones.length + (milestones.length - 1),
+              (index) {
+                if (index % 2 == 0) {
+                  final milestoneIndex = index ~/ 2;
+                  final isCompleted = currentPoints >= milestones[milestoneIndex];
+  
+                  return GestureDetector(
+                    onTap: () {
+                      if (onMilestoneTap != null) {
+                        onMilestoneTap!(milestoneIndex);
+                      }
+                    },
+                    child: _buildIcon(isCompleted),
+                  );
+                } else {
+                  final segmentIndex = index ~/ 2;
+                  final progress = _calculateSegmentProgress(
+                    milestones[segmentIndex],
+                    milestones[segmentIndex + 1],
+                  );
+                  return _buildLineSegment(progress);
+                }
+              },
+            ),
+          ),
+          if (labels != null) ...[
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: labels!.asMap().entries.map((entry) {
+                final index = entry.key;
+                final label = entry.value;
+                return GestureDetector(
+                  onTap: () => onMilestoneTap?.call(index),
+                  child: SizedBox(
+                    width: iconSize,
+                    height: 30,
+                    child: OverflowBox(
+                      maxWidth: iconSize * 3,
+                      maxHeight: 30,
+                      child: Center(
+                        child: Text(
+                          label,
+                          textAlign: TextAlign.center,
+                          style: labelStyle ??
+                              const TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.w500),
+                          softWrap: false,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            }).toList(),
-          ),
+                );
+              }).toList(),
+            ),
+          ],
         ],
-      ],
+      ),
     );
   }
 

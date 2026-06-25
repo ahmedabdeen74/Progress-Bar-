@@ -1,6 +1,7 @@
 ## 0.0.7
 
-* Fix RTL support and clamp total progress fraction in CustomProgressBar
+* Enforce LTR layout direction to keep progress bar behavior and design identical in RTL (Arabic) environments.
+* Clamp total progress fraction in CustomProgressBar.
 
 ## 0.0.6
 

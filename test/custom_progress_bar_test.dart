@@ -3,8 +3,37 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:reward_progress_bar/reward_progress_bar.dart';
 
 void main() {
-  testWidgets('CustomProgressBar remains LTR even in RTL environment', (WidgetTester tester) async {
-    // Build the widget inside an RTL Directionality context.
+  testWidgets('CustomProgressBar aligns LTR under LTR and RTL under RTL context', (WidgetTester tester) async {
+    // 1. Test LTR context
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: Directionality(
+              textDirection: TextDirection.ltr,
+              child: CustomProgressBar(
+                currentPoints: 20,
+                milestones: const [0, 50, 100],
+                labels: const ['Start', 'Middle', 'End'],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    var startLabelFinder = find.text('Start');
+    var endLabelFinder = find.text('End');
+
+    expect(startLabelFinder, findsOneWidget);
+    expect(endLabelFinder, findsOneWidget);
+
+    double startX = tester.getCenter(startLabelFinder).dx;
+    double endX = tester.getCenter(endLabelFinder).dx;
+
+    expect(startX < endX, isTrue, reason: 'In LTR, Start milestone must be to the left of the End milestone');
+
+    // 2. Test RTL context
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
@@ -22,20 +51,12 @@ void main() {
       ),
     );
 
-    // Find the labels.
-    final startLabelFinder = find.text('Start');
-    final endLabelFinder = find.text('End');
+    startLabelFinder = find.text('Start');
+    endLabelFinder = find.text('End');
 
-    expect(startLabelFinder, findsOneWidget);
-    expect(endLabelFinder, findsOneWidget);
+    startX = tester.getCenter(startLabelFinder).dx;
+    endX = tester.getCenter(endLabelFinder).dx;
 
-    final double startX = tester.getCenter(startLabelFinder).dx;
-    final double endX = tester.getCenter(endLabelFinder).dx;
-
-    // In a normal LTR layout, the start milestone (index 0) is on the left (smaller X),
-    // and the end milestone is on the right (larger X).
-    // If the widget did not force LTR and fell back to the RTL context,
-    // startX would be greater than endX.
-    expect(startX < endX, isTrue, reason: 'Start milestone must be to the left of the End milestone');
+    expect(startX > endX, isTrue, reason: 'In RTL, Start milestone must be to the right of the End milestone');
   });
 }

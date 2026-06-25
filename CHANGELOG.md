@@ -1,3 +1,7 @@
+## 0.0.8
+
+* Revert forced LTR to support natural RTL layout reversing when the language is Arabic (RTL).
+
 ## 0.0.7
 
 * Enforce LTR layout direction to keep progress bar behavior and design identical in RTL (Arabic) environments.
